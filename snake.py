@@ -1,10 +1,17 @@
+# Neccessary header files
+
 import pygame
 import time
 import random
-# import imutils
+
+#Initialise the pygame
 pygame.init()
+
+#Define the height and width of screen
 display_width=800
 display_height=600
+
+#Used to store the last time when a red brick was eaten
 last_eat=time.time()
 
 game_display=pygame.display.set_mode((display_width,display_height))
@@ -12,14 +19,18 @@ pygame.display.set_caption("Saanp bole hiss")
 
 clock=pygame.time.Clock()
 
+#Defined the text objects
 def text_objects(text,fonts):
     text_surface=fonts.render(text,True,(250,250,210))
     return text_surface,text_surface.get_rect()
 
+#Defined ths start menu
 def start_menu():
 	start=True
 	x=1
+	#Run till game is started
 	while start:
+		#See all the events in between two frame change
 		for event in pygame.event.get():
 			if event.type==pygame.QUIT:
 				pygame.quit()
@@ -56,12 +67,14 @@ def start_menu():
 		pygame.display.update()
 		clock.tick(25)
 
+#Defined the function to check when a brick was eaten
 def overlap(fw,fh,rw,rh):
 	if fw==rw and rh==fh:
 		return True
 
 	return False
 
+#Defined the game. Sort of main function
 def game():
 	collide=0
 	position=[]
@@ -83,8 +96,23 @@ def game():
 			eat=False
 			last_eat=time.time()
 			print(last_eat)
-			rw=random.randint(4,79)
-			rh=random.randint(4,59)
+			next_rw=-1
+			next_rh=-1
+			if score%5==0 and score>0:
+				next_rw=random.randint(0,1)
+				next_rh=random.randint(0,1)
+				if next_rw==0:
+					rw=random.randint(4,8)
+				else:
+					rw=random.randint(75,79)
+				
+				if next_rh==0:
+					rh=random.randint(4,8)
+				else:
+					rh=random.randint(55,59)
+			else:
+				rw=random.randint(4,79)
+				rh=random.randint(4,59)
 		cur_time=time.time()
 		global last_eat
 		if cur_time-last_eat>20:
@@ -143,7 +171,7 @@ def game():
 		textrec.center=((20,20))
 		game_display.blit(textsurf,textrec)
 		pygame.display.update()
-		clock.tick(10+5*(len(position)-1))
+		clock.tick(10+3*(len(position)-1))
 
 	while collide:
 		for event in pygame.event.get():
