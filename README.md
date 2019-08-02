@@ -5,7 +5,7 @@ The game uses the pygame, time and random library of Python.
 
 The game can be controlled with four arrow keys.
 
-`**How to run?**`
+**`How to run?`**
 
 * Run the code in Python 2.7 using the command python snake.py
 
